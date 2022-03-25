@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AQmG/lzyBNmk8ywXmgO+3AN31xIVipHOXrXfH96B10aRcbbaBy3hiItxn5/6hy7cUWK1SXTNpMCHAqEdbebFJQ==",
+  "dgSpecHash": "KZ7Y86MmjOpDKfw7BZdraIH+UtoWP9cvfZhnPTrGt8UgsfraixgBCyWfltgunBOyaOxyW9kqGC9+OYYNWrZvQA==",
   "success": true,
-  "projectFilePath": "C:\\Мои проекты С#\\BrandsHTTPService\\BrandsHTTPService.csproj",
+  "projectFilePath": "C:\\GitLocalWork\\BrandHTTPService\\BrandsHTTPService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Leonid\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Leonid\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

@@ -15,7 +15,7 @@ namespace BrandsHTTPService.Abstracts
       Task<IEnumerable<BrandGetDTO>> GetBrandByIdAsync(StoreContext context, BrandListDTO brand);
       Task<IActionResult> PostBrandAsync(StoreContext context, BrandPostDTO brand);
       Task<IActionResult> EditBrandAsync(StoreContext context, BrandUpdateDTO brand);
-      Task<IActionResult> DeleteBrandAsync(StoreContext context, int[] id);
+      Task<IActionResult> DeleteBrandAsync(StoreContext context, BrandListDTO brands);
       Task<IActionResult> EditAllowableSizeAsync(StoreContext context, AllowableSizeDTO allowableSizes);
 
     }

@@ -1,6 +1,7 @@
 ﻿using BrandsHTTPService.Abstracts;
 using BrandsHTTPService.DTOModels;
 using BrandsHTTPService.EntityModels;
+using BrandsHTTPService.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +18,7 @@ namespace BrandsHTTPService.Implementations
        {
             var brands = await context.Brands?
                 .AsNoTracking()
+                .Where(x => x.IsDeletedBrand != true)
                 .Select(x =>
                 new BrandGetDTO
                 {
@@ -78,7 +80,7 @@ namespace BrandsHTTPService.Implementations
                 {
                     return new JsonResult(new { mes = "ID бренда не может быть меньше 0!" });
                 }
-                var _brand = await context.Brands.AsNoTracking().Where(x => x.BrandId == brand.BrandId).FirstAsync();
+                var _brand = await context.Brands.Where(x => x.BrandId == brand.BrandId).FirstAsync();
                 if (String.IsNullOrEmpty(_brand.BrandId.ToString()))
                 {
                     return new JsonResult(new { mes = "В базе данных нет бренда с указанным ID" });
@@ -93,27 +95,27 @@ namespace BrandsHTTPService.Implementations
                      
             return new JsonResult(new { mes = "Обновление названия бренда успешно завершено!" });
        }
-        public async Task<IActionResult> DeleteBrandAsync(StoreContext context, int[] id)
+        public async Task<IActionResult> DeleteBrandAsync(StoreContext context, BrandListDTO brands)
         {
-            for (int i = 0; i<= id.Length - 1; i++)
+            for (int i = 0; i<= brands.BrandId.Length - 1; i++)
             {
-                if(id[i] < 0)
+                if(brands.BrandId[i] < 0)
                 {
                     continue;
                 }
-                var brandIsDeleted = await context.Brands.AsNoTracking().Where(x => x.BrandId == id[i]).Select(x => x.IsDeletedBrand).FirstAsync();
-                if (brandIsDeleted == true )
+                var brand = await context.Brands.Where(x => x.BrandId == brands.BrandId[i]).FirstAsync();
+               
+                if (brand.IsDeletedBrand == true )
                 {
                     continue;
                 }
                 else
                 {
-                    brandIsDeleted = true;
-                    await context.SaveChangesAsync();
+                   brand.IsDeletedBrand = true;                  
                 }
-                
+                context.SaveChanges();
             }
-            
+            await context.SaveChangesAsync();
             return new JsonResult(new { mes = "Операция удаления выполнена" });
         }
 

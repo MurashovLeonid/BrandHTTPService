@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Мои проекты С#\\BrandsHTTPService\\BrandsHTTPService.csproj": {}
+    "C:\\GitLocalWork\\BrandHTTPService\\BrandsHTTPService.csproj": {}
   },
   "projects": {
-    "C:\\Мои проекты С#\\BrandsHTTPService\\BrandsHTTPService.csproj": {
+    "C:\\GitLocalWork\\BrandHTTPService\\BrandsHTTPService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Мои проекты С#\\BrandsHTTPService\\BrandsHTTPService.csproj",
+        "projectUniqueName": "C:\\GitLocalWork\\BrandHTTPService\\BrandsHTTPService.csproj",
         "projectName": "BrandsHTTPService",
-        "projectPath": "C:\\Мои проекты С#\\BrandsHTTPService\\BrandsHTTPService.csproj",
+        "projectPath": "C:\\GitLocalWork\\BrandHTTPService\\BrandsHTTPService.csproj",
         "packagesPath": "C:\\Users\\Leonid\\.nuget\\packages\\",
-        "outputPath": "C:\\Мои проекты С#\\BrandsHTTPService\\obj\\",
+        "outputPath": "C:\\GitLocalWork\\BrandHTTPService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Leonid\\AppData\\Roaming\\NuGet\\NuGet.Config",
