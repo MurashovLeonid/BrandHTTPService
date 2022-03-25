@@ -10,7 +10,7 @@ namespace BrandsHTTPService.Helpers
     {
         public static void Initialize(StoreContext context)
         {
-            context.Database.EnsureDeleted();
+            
             context.Database.EnsureCreated();
             if (context.Brands.Any())
             {
