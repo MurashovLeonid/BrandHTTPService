@@ -1,4 +1,5 @@
 ﻿using BrandsHTTPService.EntityModels;
+using BrandsHTTPService.EntityModels.AuthentificationModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,18 @@ namespace BrandsHTTPService.Helpers
 {
     public static class DataBaseInitializer
     {
-        public static void Initialize(StoreContext context)
+        public static void UserInitialize(UserContext context)
+        {
+            context.Database.EnsureCreated();
+            if (context.Users.Any())
+            {
+                return;
+            }
+            var user = new User { UserId = 1, UserEmail = "lenja-d@yandex.ru", UserPassword = "12345678" };
+            context.Users.Add(user);
+            context.SaveChanges();
+        }
+        public static void StoreInitialize(StoreContext context)
         {
             
             context.Database.EnsureCreated();

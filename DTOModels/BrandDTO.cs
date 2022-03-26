@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BrandsHTTPService.DTOModels
 {
-    public class BrandGetDTO
+    public class BrandDTO
     {
         public int BrandId { get; set; }
         public string BrandName { get; set; }

@@ -14,13 +14,13 @@ namespace BrandsHTTPService.Implementations
     public class BrandService : IBrandService
     {  
        
-       public async Task<IEnumerable<BrandGetDTO>> GetBrandsAsync(StoreContext context)
+       public async Task<IEnumerable<BrandDTO>> GetBrandsAsync(StoreContext context)
        {
             var brands = await context.Brands?
                 .AsNoTracking()
                 .Where(x => x.IsDeletedBrand != true)
                 .Select(x =>
-                new BrandGetDTO
+                new BrandDTO
                 {
                     BrandId = x.BrandId,
                     BrandName = x.BrandName,
@@ -36,31 +36,38 @@ namespace BrandsHTTPService.Implementations
 
             return brands;
        }
-       public async Task<IEnumerable<BrandGetDTO>> GetBrandByIdAsync(StoreContext context, BrandListDTO brand)
+       public async Task<IEnumerable<BrandDTO>> GetBrandByIdAsync(StoreContext context, BrandListDTO brand)
        {
-            var validModelIdArray =  brand.BrandId.Where(x=> x > 0).ToArray();
-
-            var brands = await context.Brands?
+            var brands = new List<BrandDTO>();
+            if (brand.BrandId.Any())
+            {
+                var validModelIdArray = brand.BrandId.Where(x => x > 0).ToArray();
+                brands = await context.Brands?
                 .AsNoTracking()
                 .Where(x => validModelIdArray.Contains(x.BrandId) && x.IsDeletedBrand != true)
-                .Select(x => new BrandGetDTO
+                .Select(x => new BrandDTO
                 {
-                BrandId = x.BrandId,
-                BrandName = x.BrandName,
-                AllowableSizes = x.AllowableSizes.Select(y => new AllowableSizeDTO
-                {
-                    AllowableSizeId = y.AllowableSizeId,
-                    RFSize = y.RFSize,
-                    BrandSize = y.BrandSize
-                }).ToList()
+                    BrandId = x.BrandId,
+                    BrandName = x.BrandName,
+                    AllowableSizes = x.AllowableSizes.Select(y => new AllowableSizeDTO
+                    {
+                        AllowableSizeId = y.AllowableSizeId,
+                        RFSize = y.RFSize,
+                        BrandSize = y.BrandSize
+                    }).ToList()
                 })
                 .ToListAsync();
-
+            }
+            
             return brands;
        }
 
       public async Task<IActionResult> PostBrandAsync(StoreContext context, BrandPostDTO brand)
       {
+            if(String.IsNullOrWhiteSpace(brand.BrandName))
+            {
+                return new JsonResult(new { mes = "Пожалуйста, укажите название бренда, которое необходимо внести" });
+            }
 
             if (await context.Brands.AnyAsync(x => x.BrandName == brand.BrandName))
             {
@@ -72,7 +79,7 @@ namespace BrandsHTTPService.Implementations
 
             return new JsonResult(new { mes = "Добавление бренда произошло успешно!" });
       }
-       public async Task<IActionResult> EditBrandAsync(StoreContext context, BrandUpdateDTO brand)
+       public async Task<IActionResult> EditBrandAsync(StoreContext context, BrandEditDTO brand)
        {
             try 
             {
@@ -127,7 +134,7 @@ namespace BrandsHTTPService.Implementations
                 return new JsonResult(new { mes = "Списка размеров с заданным ID в базе не существует" });
             }
 
-            var _allowableSize = await context.AllowableSizes.AsNoTracking().Where(x => x.AllowableSizeId == sizeId.AllowableSizeId).FirstAsync();
+            var _allowableSize = await context.AllowableSizes.Where(x => x.AllowableSizeId == sizeId.AllowableSizeId).FirstAsync();
 
             _allowableSize.BrandSize = allowableSize.BrandSize;
 

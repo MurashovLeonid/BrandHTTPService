@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using BrandsHTTPService.EntityModels;
+using BrandsHTTPService.EntityModels.AuthentificationModels;
 
 namespace BrandsHTTPService
 {
@@ -27,8 +28,10 @@ namespace BrandsHTTPService
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<StoreContext>();
-                    DataBaseInitializer.Initialize(context);
+                    var storeContext = services.GetRequiredService<StoreContext>();
+                    var userContext = services.GetRequiredService<UserContext>();
+                    DataBaseInitializer.UserInitialize(userContext);
+                    DataBaseInitializer.StoreInitialize(storeContext);
                 }
                 catch (Exception ex)
                 {

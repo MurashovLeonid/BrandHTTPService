@@ -1,6 +1,8 @@
 using BrandsHTTPService.Abstracts;
 using BrandsHTTPService.EntityModels;
+using BrandsHTTPService.EntityModels.AuthentificationModels;
 using BrandsHTTPService.Implementations;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,36 +31,39 @@ namespace BrandsHTTPService
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {          
+        {
+            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase(Configuration.GetConnectionString("TestDb")));
             services.AddDbContext<StoreContext>(opt => opt.UseInMemoryDatabase(Configuration.GetConnectionString("TestDb")));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => 
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Authorization");
+                });
             services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BrandsHTTPService", Version = "v1" });
-            });
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BrandsHTTPService v1"));
-            }
-
-            app.UseHttpsRedirection();
+           
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseHttpsRedirection();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+           
+
+
         }
     }
 }

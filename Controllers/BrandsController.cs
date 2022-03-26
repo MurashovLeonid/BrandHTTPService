@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using BrandsHTTPService.EntityModels;
 using BrandsHTTPService.DTOModels;
 using BrandsHTTPService.Abstracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BrandsHTTPService.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
+    [Route("[controller]")]
     [ApiController]
     public class BrandsController : Controller
     {
@@ -24,55 +26,55 @@ namespace BrandsHTTPService.Controllers
             _context = context;
 
         }
-
-        // GET: api/Brands/All
-        [HttpGet("All")]
+       
+        // GET: /Brands/All
+        [HttpGet("All")]  
         public async Task<IActionResult> GetBrandsAsync()
         {
             return Ok(await _brandService.GetBrandsAsync(_context));
         }
 
-        // GET: api/Brands/List
+        // GET: /Brands/List
         [HttpGet("List")]
+        
         public async Task<IActionResult> GetBrandByIdAsync([FromBody] BrandListDTO brand)
         {
             return Ok(await _brandService.GetBrandByIdAsync(_context, brand));
         }
 
-        // GET: api/Brands/Post
-        [HttpPost("Post")]
+        // Post: /Brands/Post
+        [HttpPost("Post")]       
         public async Task<IActionResult> PostBrandAsync([Bind("BrandName")] BrandPostDTO brand)
         {
             return new JsonResult(await _brandService.PostBrandAsync(_context, brand));
         }
 
 
-        // POST: api/Brands/Edit
+        // POST: /Brands/Edit
         [HttpPost("Edit")]
-        public async Task<IActionResult> EditBrandAsync([Bind("BrandId,BrandName")] BrandUpdateDTO brand)
+        
+        public async Task<IActionResult> EditBrandAsync([Bind("BrandId,BrandName")] BrandEditDTO brand)
         {
 
             return new JsonResult(await _brandService.EditBrandAsync(_context, brand));
         }
 
-        // POST: api/Brands/Delete
+        // POST: /Brands/Delete
         [HttpPost("Delete")]
+        
         public async Task<IActionResult> DeleteBrandAsync([Bind("BrandId")] BrandListDTO brands)
         {
             return new JsonResult(await _brandService.DeleteBrandAsync(_context, brands));
         }
 
-        // POST: api/Brands/AllowableSizes/Edit
+        // POST: /Brands/AllowableSizes/Edit
         [HttpPost("AllowableSizes/Edit")]
+        
         public async Task<IActionResult> EditAllowableSizeAsync([Bind("AllowableSizeId,BrandSize, RFSize")] AllowableSizeDTO allowableSize)
         {
 
             return new JsonResult(await _brandService.EditAllowableSizeAsync(_context, allowableSize));
         }
-
-       
-
-
-        
+     
     }
 }
