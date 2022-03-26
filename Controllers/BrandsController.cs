@@ -12,15 +12,15 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BrandsHTTPService.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("[controller]")]
     [ApiController]
     public class BrandsController : Controller
     {
         private readonly StoreContext _context;
-        private readonly IBrandService _brandService;
+        private readonly IBrandsService _brandService;
 
-        public BrandsController(StoreContext context, IBrandService brandService)
+        public BrandsController(StoreContext context, IBrandsService brandService)
         {
             _brandService = brandService;
             _context = context;
@@ -75,6 +75,16 @@ namespace BrandsHTTPService.Controllers
 
             return new JsonResult(await _brandService.EditAllowableSizeAsync(_context, allowableSize));
         }
-     
+
+        //POST: /Brands/AllowableSizeExist
+        [HttpPost("IsAllowableSizeExist")]
+        public async Task<AllowableSizeExistDTO> IsAllowableSizeExist([Bind("BrandName, RFSize")] AllowableSizeExistDTO allowableSize)
+        {
+            var allowableSizeExist = new AllowableSizeExistDTO();
+            var response = await _brandService.IsAllowableSizeExist(_context, allowableSize);
+            allowableSizeExist.IsSizeExist = response.IsSizeExist;
+            return allowableSizeExist;
+        }
+
     }
 }

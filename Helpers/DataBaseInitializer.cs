@@ -32,8 +32,10 @@ namespace BrandsHTTPService.Helpers
             {
                 new Brand { BrandId = 1, BrandName = "Nike", AllowableSizes = new List<AllowableSize>(){new AllowableSize{ AllowableSizeId = 10,RFSize = "1", BrandSize = "10", BrandId = 1},
                 new AllowableSize{AllowableSizeId = 20, RFSize = "2", BrandSize = "40", BrandId = 1}}},
+
                 new Brand { BrandId = 2, BrandName = "Adidas", AllowableSizes = new List<AllowableSize>(){  new AllowableSize{ AllowableSizeId = 30,RFSize = "3", BrandSize = "55", BrandId = 2},
                 new AllowableSize{ AllowableSizeId = 40, RFSize = "5", BrandSize = "78", BrandId = 2}}},
+
                 new Brand { BrandId = 3,BrandName = "Puma", AllowableSizes = new List<AllowableSize>(){new AllowableSize{ AllowableSizeId = 50, RFSize = "6", BrandSize = "19", BrandId = 3},
                 new AllowableSize{ AllowableSizeId = 60,RFSize = "18", BrandSize = "43", BrandId = 3}}}
             };

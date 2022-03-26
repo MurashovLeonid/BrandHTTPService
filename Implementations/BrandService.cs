@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BrandsHTTPService.Implementations
 {
-    public class BrandService : IBrandService
+    public class BrandService : IBrandsService
     {  
        
        public async Task<IEnumerable<BrandDTO>> GetBrandsAsync(StoreContext context)
@@ -144,6 +144,21 @@ namespace BrandsHTTPService.Implementations
 
             return new JsonResult(new { mes = "Операция обновления списка размеров завершена" });
         }
+        public async Task<AllowableSizeExistDTO> IsAllowableSizeExist(StoreContext context, AllowableSizeExistDTO product)
+        {
+            var brandId = await context.Brands.AsNoTracking().Where(x => x.BrandName == product.BrandName).Select(x => x.BrandId).FirstAsync();
+            var allowableSize =  context.AllowableSizes
+                .AsNoTracking()
+                .Where(x => x.RFSize == product.RfSize && x.BrandId == brandId)
+                .First();
+            if(String.IsNullOrWhiteSpace(allowableSize.BrandId.ToString()))
+            {
+                return new AllowableSizeExistDTO { IsSizeExist = false };
+            }
+
+            return new AllowableSizeExistDTO { IsSizeExist = true };
+        }
+
 
     }
 }

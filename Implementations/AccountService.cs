@@ -14,11 +14,6 @@ namespace BrandsHTTPService.Implementations
 {
     public class AccountService : IAccountService
     {
-        
-        public async Task<IActionResult> Login(LoginModel model)
-        {
-            return new JsonResult(new { mes = "Пока не востребовано" });
-               
-        }
+              
     }
 }

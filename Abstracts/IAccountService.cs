@@ -9,7 +9,6 @@ namespace BrandsHTTPService.Abstracts
 {
     interface IAccountService
     {
-        Task<IActionResult> Login(LoginModel model);
 
     }
 }

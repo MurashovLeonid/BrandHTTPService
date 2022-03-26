@@ -32,14 +32,15 @@ namespace BrandsHTTPService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase(Configuration.GetConnectionString("TestDb")));
             services.AddDbContext<StoreContext>(opt => opt.UseInMemoryDatabase(Configuration.GetConnectionString("TestDb")));
+            services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase(Configuration.GetConnectionString("TestDb")));
+           
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => 
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Authorization");
                 });
-            services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IBrandsService, BrandService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddControllers();
            
